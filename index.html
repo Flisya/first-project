@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel = "stylesheet" type = "text/css" href = "css/tickets.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/button-counter.js"></script>
+    <script src="js/ticket-item.js"></script>
+  </head>
+
+  <body>
+      <div id="app">
+            <h1 id="total">{{ title }}</h1>
+            <div>{{filter_title}}</div>
+                        
+            <div class="contr" v-if="showForm == false">
+              <div id="add-ticket-button" class="button blue" v-on:click="addButtonClicked">Добавить</div>
+            </div>
+
+            <div v-if="showForm">
+              <input v-model='form_ticket_departure_airport' placeholder="аэропорт отправления" >
+              <input v-model='form_ticket_departure_time' placeholder="время вылета" >
+              <input v-model='form_ticket_arrival_airport' placeholder="аэропорт прибытия" >
+              <input v-model='form_ticket_flight_duration_minutes' placeholder="длительность полета в минутах" >
+              <input v-model="form_ticket_price" type="number" placeholder="Цена">
+
+              <select v-model="form_ticket_carrier">
+                <option value='pobeda'>Победа</option>
+                <option value='yral'>Урал-транс</option>
+                <option value='aeroflot'>Аэрофлот</option>
+              </select>
+
+              <br>
+              <div id="submit-form-button" class="button blue inline" v-on:click="saveButtonClicked">Сохранить</div>
+              <div id="cancel-form-button" class="button gray inline" v-on:click="cancelButtonClicked">Отменить</div>
+            </div>
+
+            <div v-if='false' class="filter">
+              
+              <span>Аэропорт вылета</span>
+              <select v-model="filter_depature_airport">
+                <option value="">Любой</option>
+                <option value="vko">Внуково</option>
+                <option value="svo">Шереметьево</option>
+                <option value="dme">Домодедово</option>
+              </select>
+              
+              <span>Аэропорт прибытия</span>
+              <select v-model="filter_arrival_airport">
+                <option value="">Любой</option>
+                <option value="vko">Внуково</option>
+                <option value="svo">Шереметьево</option>
+                <option value="dme">Домодедово</option>
+              </select>                        
+            </div>
+      
+            
+            <h2>Домодедово вылет</h2>
+            <div class='tickets'>
+              <ticket-item v-on:delete-item="deleteTicket" v-bind:ticket="ticket" v-for='(ticket,index) in filterTickets("dme","")'></ticket-item>
+            </div>
+            
+            <h2>Шереметьево вылет</h2>
+            <div class='tickets'>
+              <ticket-item v-on:delete-item="deleteTicket" v-bind:ticket="ticket" v-for='(ticket,index) in filterTickets("svo","")'></ticket-item>
+            </div>
+            
+            <h2>Внуково вылет</h2>
+            <div class='tickets'>
+              <ticket-item v-on:delete-item="deleteTicket" v-bind:ticket="ticket" v-for='(ticket,index) in filterTickets("vko","")'></ticket-item>
+            </div>
+      </div>
+
+    <script src="js/tickets-vue.js"></script>
+  </body>
+
+
+</html>
